@@ -1,0 +1,35 @@
+[cmake]
+version = "3.15"
+cmkr-include = "cmake/cmkr.cmake"
+
+[project]
+name = "fluid-simulation"
+
+# See https://github.com/microsoft/vcpkg/releases for vcpkg versions
+# See https://vcpkg.io/en/packages or https://vcpkg.link for available packages
+[vcpkg]
+version = "2024.11.16"
+packages = ["glfw3", "glew", "glm"]
+
+# [find-package.glfw3]
+# [find-package.glew]
+[find-package]
+glfw3 = {}
+GLEW = {}
+glm = {}
+
+# libfluid
+[target.libfluid]
+type = "static"
+alias = "libfluid::libfluid"
+sources = ["libfluid/**.cpp", "libfluid/**.hpp"]
+include-directories = ["libfluid/include"]
+link-libraries = ["glfw", "GLEW::GLEW", "glm::glm"]
+compile-features = ["cxx_std_20"]
+
+# main executable
+[target.main]
+type = "executable"
+sources = ["main.cpp"]
+link-libraries = ["libfluid::libfluid"]
+compile-features = ["cxx_std_20"]
